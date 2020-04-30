@@ -14,7 +14,11 @@ def solve(G):
     """
 
     # TODO: your code here!
-    pass
+    seen = []
+    while len(seen) != len(G.nodes):
+
+
+
 
 
 # Here's an example of how to run your solver.
