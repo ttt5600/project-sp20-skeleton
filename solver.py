@@ -17,13 +17,6 @@ def solve(G):
     class DisjointSet:
         def __init__(self, vertices):
             self.vertices = [[v, 0] for v in range(vertices)]
-            #         self.vertexset = [v for v in vertices]
-
-        #     def add(self, vertex):
-        #         if self.contains(vertex):
-        #             return False
-        #         self.vertices.append([vertex, 0])
-        #         return True
 
         def contains(self, vertex):
             return vertex in [x[0] for x in self.vertices]
@@ -43,8 +36,7 @@ def solve(G):
                 if self.vertices[rootx][1] == self.vertices[rooty][1]:
                     self.vertices[rooty][1] += 1
 
-
-    order = []
+    big_ = []
     for i in range(len(G.nodes)):
         total = 0
         for j in range(len(list(G.edges([i])))):
