@@ -4,18 +4,61 @@ from utils import is_valid_network, average_pairwise_distance
 import sys
 
 
+
 def solve(G):
     """
-    Args:
-        G: networkx.Graph
+       Args:
+           G: networkx.Graph
 
-    Returns:
-        T: networkx.Graph
-    """
+       Returns:
+           T: networkx.Graph
+       """
 
-    # TODO: your code here!
-    seen = []
-    while len(seen) != len(G.nodes):
+    class DisjointSet:
+        def __init__(self, vertices):
+            self.vertices = [[v, 0] for v in range(vertices)]
+            #         self.vertexset = [v for v in vertices]
+
+        #     def add(self, vertex):
+        #         if self.contains(vertex):
+        #             return False
+        #         self.vertices.append([vertex, 0])
+        #         return True
+
+        def contains(self, vertex):
+            return vertex in [x[0] for x in self.vertices]
+
+        def find(self, x):
+            if x != self.vertices[x][0]:
+                self.vertices[x][0] = self.find(self.vertices[x][0])
+            return self.vertices[x][0]
+
+        def union(self, x, y):
+            rootx = self.find(x)
+            rooty = self.find(y)
+            if self.vertices[rootx][1] > self.vertices[rooty][1]:
+                self.vertices[rooty][0] = rootx
+            else:
+                self.vertices[rootx][0] = rooty
+                if self.vertices[rootx][1] == self.vertices[rooty][1]:
+                    self.vertices[rooty][1] += 1
+
+
+    order = []
+    for i in range(len(G.nodes)):
+        total = 0
+        for j in range(len(list(G.edges([i])))):
+            total += G.edges[list(G.edges([i]))[j]]['weight']
+        order.append((i, total))
+    order.sort(key=lambda x: x[1],reverse=True)
+    seen = set()
+    tree = nx.Graph()
+    k = 0
+    while len(seen) != len(G.nodes) and nx.is_connected(tree):
+        node = order[k][0]
+        for vertex in list(G.adj[node]):
+            seen.add(vertex)
+
 
 
 
